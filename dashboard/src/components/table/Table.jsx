@@ -9,7 +9,7 @@ import Paper from "@mui/material/Paper";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { useState } from "react";
-import { Button } from "@mui/material";
+
 
 
 const List = () => {
@@ -18,10 +18,10 @@ const List = () => {
   let [response,setResponse]=useState()
   
 
-  const { data , isLoading , isError , error ,isSuccess,refetch} = useQuery('Get_warrenty_claim', async () => {
+  const { data , isLoading , isError , error ,isSuccess,refetch} = useQuery('Get_warrenty_claim', () => {
     
   
-    return  await axios.get('http://127.0.0.1:8000/api/warrenty-get/').then((res)=>setResponse(res.data))
+    return axios.get('http://127.0.0.1:8000/api/warrenty-get/').then((res)=>setResponse(res.data))
 
   });
 
@@ -39,9 +39,9 @@ const List = () => {
     </div>)
   }
   
-  const HandlePagination= (url)=>{
+  const HandlePagination=(url)=>{
 
-    return  axios.get(url).then((res)=>setResponse(res.data))
+    return axios.get(url).then((res)=>setResponse(res.data))
     
 
 
@@ -68,7 +68,7 @@ const List = () => {
           </TableRow>
         </TableHead>
         
-    {response && response.results && response?.results.map((row,index) => {
+    {response.results && response?.results.map((row,index) => {
           return(
           <TableBody>
             <TableRow key={row.Ticket_no}>
@@ -91,13 +91,13 @@ const List = () => {
     </TableContainer>
     <div>
      {
-      response && response.previous &&
+      response.previous &&
       
-      <input type="button" value="Previous" title={url} onClick={()=>HandlePagination(response.previous)}/>
+      <input className="boom" type="button" value="Previous" title={url} onClick={()=>HandlePagination(response.previous)}/>
      }
       {
-      response && response.next &&
-      <input type="button" value="Next" title={url} onClick={()=>HandlePagination(response.next)}className="float-end"/>
+      response.next &&
+      <input type="button" value="Next" title={url} onClick={()=>HandlePagination(response.next)}className="float-end boom"/>
 
       // <button  onClick={()=>setUrl(data.data.next)}className="float-end">Next</button>
 }

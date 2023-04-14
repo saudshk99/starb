@@ -13,10 +13,6 @@ from rest_framework.exceptions import AuthenticationFailed
 import jwt,datetime
 import json
 
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
-
-
 
 # Create your views here.
 
@@ -129,84 +125,62 @@ class Shop_Users(APIView):
 
 
 # API TO Authenticate USERS (LOGIN)
-# class Auth(APIView):
+class Auth(APIView):
 
-#     def post(self, request):
+    def post(self, request):
 
-#         UserData = request.data
-#         try:
-#             queryset = User.objects.filter(username=UserData['username']).first()
+        UserData = request.data
+        try:
+            queryset = User.objects.filter(username=UserData['username']).first()
 
-#             if queryset is None:
-#                 raise AuthenticationFailed('User Not Found')
+            if queryset is None:
+                raise AuthenticationFailed('User Not Found')
 
-#             if not queryset.check_password(UserData['password']):
-#                 raise AuthenticationFailed('Incorrect Password')
+            if not queryset.check_password(UserData['password']):
+                raise AuthenticationFailed('Incorrect Password')
             
-#             expire_at = (datetime.datetime.utcnow() + datetime.timedelta(hours=4)).isoformat()
-#             initialize_at = datetime.datetime.utcnow().isoformat()
-#             payload = {
-#                 'id': queryset.id,
-#                 'expire': expire_at,
-#                 'int': initialize_at
-#             }
+            expire_at = (datetime.datetime.utcnow() + datetime.timedelta(hours=4)).isoformat()
+            initialize_at = datetime.datetime.utcnow().isoformat()
+            payload = {
+                'id': queryset.id,
+                'expire': expire_at,
+                'int': initialize_at
+            }
 
-#             token = jwt.encode(payload, 'secret', algorithm='HS256')
+            token = jwt.encode(payload, 'secret', algorithm='HS256')
 
-#             response = Response()
-#             response.set_cookie(key='jwt', value=token, httponly=True)
-            
-#             response.data = {
-#                 'jwt': token
-#             }
-#             return response
+            response = Response()
+            response.set_cookie(key='jwt', value=token, httponly=True)
+            response.data = {
+                'jwt': token
+            }
+            return response
 
-#         except User.DoesNotExist:
-#             return Response({'error': 'User Not Found'})
+        except User.DoesNotExist:
+            return Response({'error': 'User Not Found'})
 
-# class GetLoginInfo(APIView):
+
+class userView(APIView):
 
     def get(self, request):
-        token = request.COOKIES.get('jwt')
-        print(token)
-        if not token:
-            return Response({'error': 'JWT token not found in cookie.'}, status=400)
-
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('JWT token has expired')
-
-        user_id = payload.get('id')
-        user = User.objects.filter(id=user_id).first()
-
-        if not user:
-            return Response({'error': 'User not found'}, status=404)
-
-        serialized_data = UserSerializer(user, many=False).data
+        token = request.data
         
-        return Response(serialized_data, status=200)
+        if token is None:
+            return Response({'error': 'JWT token not found in cookie.'})
 
+        # try:
+        #     if type(token)==str:
+        #         token=json.dumps(token).encode()
+        #     payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+        # except jwt.ExpiredSignatureError:
+        #     raise AuthenticationFailed('Unauthorized')
 
+        queryset = User.objects.get(id=token('jwt'))
+        serialized_data = UserSerializer(queryset,many=False)
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-
-        # Add custom claims
-        token['username'] = user.username
-        token['first_name'] = user.first_name
-        token['last_name'] = user.last_name
-        token['email'] = user.email
-
-
-        # ...
-
-        return token
+        return Response(serialized_data.data)
     
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
+
 
 
 class logOut(APIView):
