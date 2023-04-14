@@ -1,41 +1,39 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import "./LoginPage.css"
 import logo from "./logo2.png"
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
+import CryptoJS from 'crypto-js';
+import AuthContext from '../../context/AuthContext';
 
 function LoginPage() {
-  const navigate = useNavigate ();
- 
+  const navigate= useNavigate();
+
+  let {loginUser}=useContext(AuthContext)
+
   const [formData, setFormData] = useState({
     username: '',
     password: ''
   });
   const [msg, setMsg] = useState('');
 
-  const { data, isLoading,refetch } = useQuery('Authenticate', () => {
-    return axios.post('http://127.0.0.1:8000/api/users/Auth/', formData)
-  })
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    const { data ,isError,isLoading,error} = await refetch();
+    const res=await loginUser(event,formData);
 
-    if (data && data.data.jwt) {
-      Cookies.set('jwt', data.data.jwt);
-    
-
+    if (res){
       navigate('/')
-      
-    }
-    if(data.status===401){
-      setMsg(data.data.detail)
     }
     
+
+    
+
+
   }
 
   const handleChange = (event) => {
@@ -71,12 +69,13 @@ function LoginPage() {
             value={formData.password}
             onChange={handleChange} required />
 
-           {
+          {/* {
             isLoading && <div>
               Loading...
             </div>
-          } 
-          {msg && <div style={{ color: 'red', marginBottom: "10px", fontsize: "1.2rem" }}>{msg}</div>} 
+          }  */}
+          {
+            msg && <div style={{ color: 'red', marginBottom: "10px", fontsize: "1.2rem" }}>{msg}</div>}
           <div style={{ marginTop: "1rem" }}>
             <Button
               type="submit"

@@ -1,4 +1,4 @@
-import "./new.scss";
+import "./newProduct.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
@@ -6,7 +6,7 @@ import { AddUser } from "../../postRequest";
 import { useEffect, useState } from "react";
 import { color } from "@mui/system";
 
-const New = ({ inputs, title }) => {
+const NewProduct = ({ inputs, title }) => {
   const [file, setFile] = useState("");
   const [user,setUser]=useState({
 
@@ -62,9 +62,9 @@ const New = ({ inputs, title }) => {
   return (
     <>
       <div className="new">
-        <Sidebar />
+        {/* <Sidebar /> */}
         <div className="newContainer">
-          <Navbar />
+          {/* <Navbar /> */}
           <div className="top">
             <h1>{title}</h1>
           </div>
@@ -129,7 +129,7 @@ const New = ({ inputs, title }) => {
                   <input type="text" id="address" onChange={(e) => setUser({...user,Address:e.target.value})} value={user.Address} placeholder="Elton St. 216 NewYork" required />
                 </div>
 
-                {
+                {/* {
                   isLoading && <span>loading... please Wait</span>
                 }
                 {
@@ -139,7 +139,7 @@ const New = ({ inputs, title }) => {
                 {
                   isSuccess &&  <span style={{ color: 'Green' }}><b>{data.data} </b></span>
                 }
-
+ */}
 
 
 
@@ -153,4 +153,4 @@ const New = ({ inputs, title }) => {
   );
 };
 
-export default New;
+export default NewProduct;

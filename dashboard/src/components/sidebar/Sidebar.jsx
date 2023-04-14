@@ -8,16 +8,22 @@ import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import SearchIcon from '@mui/icons-material/Search';
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-function Logout(){
-
-  Cookies.remove('jwt')
-  
-
-  
-  }
 
 const Sidebar = () => {
+  const navigate=useNavigate()
+  async function Logout (){
+    axios.post('http://127.0.0.1:8000/api/users/logout/')
+    await sessionStorage.clear();
+    await Cookies.remove("jwt");
+      
+     window.location.href="/login";
+      
+      }
+  
+
+
     return (
     <div className="sidebar">
       <div className="top">
@@ -56,11 +62,7 @@ const Sidebar = () => {
           </li>
           <li>
            <TaskAltIcon className="icon" />
-              <span>Pending Claims</span>
-          </li>
-          <li>
-           <TaskAltIcon className="icon" />
-              <span>Fulfilled Claims</span>
+                <span>Pending Claims</span>
           </li>
           <p className="title">SALE REGISTRATION</p>
           <li>
@@ -81,6 +83,7 @@ const Sidebar = () => {
             <span>Search Claim</span>
           </li>
           <li>
+          <AddTaskIcon className="icon" />
           <PsychologyOutlinedIcon className="icon" />
             <span>Logs</span>
           </li>
