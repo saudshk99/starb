@@ -1,28 +1,54 @@
 import "./navbar.scss";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { DarkModeContext } from "../../context/darkModeContext";
+import { useContext, useEffect,useState } from "react";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
+import axios from "axios";
+import CryptoJS from "crypto-js";
+import AuthContext from '../../context/AuthContext';
 
-//function CheckLogin(){
- // const navigate=useNavigate()
- // const loggedIn=Cookies.get('jwt')
 
- // if(!loggedIn){
- //   return navigate('/login')
- // }
+function CheckLoggedIn(){
+
+
+  let token=sessionStorage.getItem('Token')
+
+  if (!token || token===null){
+    return false
+  }else{
+    return true
+  }
+
   
-//}
-
-
- // CheckLogin()
-
   
+}
 
 
 
 const Navbar = () => {
+  
+  let navigate=useNavigate()
+  
+  const {user}=useContext(AuthContext)
+
+  
+  
+ useEffect(() => {
+  if (!user||user===null){
+    navigate('/login');
+  }
+
+
+ },[])
+
+
+  
+  const { dispatch } = useContext(DarkModeContext);
+
 
   return (
     <div className="navbar">
@@ -32,6 +58,12 @@ const Navbar = () => {
           <SearchOutlinedIcon />
         </div>
         <div className="items">
+          <div className="item">
+            <DarkModeOutlinedIcon
+              className="icon"
+              onClick={() => dispatch({ type: "TOGGLE" })}
+            />
+          </div>
           <div className="item">
             <NotificationsNoneOutlinedIcon className="icon" />
             <div className="counter">99</div>
