@@ -4,69 +4,93 @@
   .singleContainer {
     flex: 6;
 
-    .top {
-      padding: 20px;
-      display: flex;
-      gap: 20px;
+    // Variables
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$font-family: sans-serif;
 
-      .left {
-        flex: 1;
-        -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-        box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
-        padding: 20px;
-        position: relative;
+// Global styles
+* {
+  box-sizing: border-box;
+}
 
-        .editButton {
-          position: absolute;
-          top: 0;
-          right: 0;
-          padding: 5px;
-          font-size: 12px;
-          color: #7451f8;
-          background-color: #7551f818;
-          cursor: pointer;
-          border-radius: 0px 0px 0px 5px;
-        }
+body {
+  font-family: $font-family;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+}
 
-        .item {
-          display: flex;
-          gap: 20px;
+h1, h3 {
+  font-weight: 500;
+}
 
-          .itemImg {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-          }
+a {
+  color: $primary-color;
+  text-decoration: none;
 
-          .details {
-            .itemTitle {
-              margin-bottom: 10px;
-              color: #555;
-            }
+  &:hover {
+    text-decoration: underline;
+  }
+}
 
-            .detailItem {
-              margin-bottom: 10px;
-              font-size: 14px;
+// Component styles
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 20px;
 
-              .itemKey {
-                font-weight: bold;
-                color: gray;
-                margin-right: 5px;
-              }
+  .left {
+    display: flex;
+    align-items: center;
 
-              .itemValue {
-                font-weight: 300;
-              }
-            }
-          }
-        }
-      }
+    .editButton {
+      background-color: $primary-color;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 4px;
+      margin-right: 20px;
+      cursor: pointer;
 
-      .right {
-        flex: 2;
+      &:hover {
+        background-color: darken($primary-color, 10%);
       }
     }
+
+    .title {
+      margin: 0;
+      margin-right: 20px;
+    }
+
+    .details {
+      margin: 0;
+
+      .itemTitle {
+        margin: 0;
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      .detailItem {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+
+        .itemKey {
+          color: $secondary-color;
+          margin-right: 10px;
+        }
+
+        .itemValue {
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
 
     .bottom {
       -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);

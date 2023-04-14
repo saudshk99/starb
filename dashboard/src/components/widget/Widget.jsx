@@ -1,9 +1,8 @@
 import "./widget.scss";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-
-const Widget = ( props ) => {
+const Widget = (props) => {
   let data;
 
   //temporary
@@ -68,7 +67,7 @@ const Widget = ( props ) => {
         ),
       };
       break;
-      case "ClaimFulfilled":
+    case "ClaimFulfilled":
       data = {
         title: "Fulfilled",
         link: "View all Fulfilled Claims",
@@ -91,9 +90,7 @@ const Widget = ( props ) => {
     <div className="widget">
       <div className="left">
         <span className="title">{data.title}</span>
-        <span className="counter">
-           {props.count}
-        </span>
+        <span className="counter">{props.count}</span>
         <span className="link">{data.link}</span>
       </div>
       <div className="right">
