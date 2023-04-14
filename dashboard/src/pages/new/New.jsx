@@ -3,6 +3,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import { AddUser } from "../../postRequest";
 import { useEffect, useState } from "react";
+import { color } from "@mui/system";
 
 const New = ({ inputs, title }) => {
   const [user, setUser] = useState({
